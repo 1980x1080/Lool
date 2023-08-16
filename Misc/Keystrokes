@@ -1,0 +1,155 @@
+local Keystrokes = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local W = Instance.new("TextLabel")
+local S = Instance.new("TextLabel")
+local A = Instance.new("TextLabel")
+local D = Instance.new("TextLabel")
+local LMB = Instance.new("TextLabel")
+local RMB = Instance.new("TextLabel")
+local Space = Instance.new("TextLabel")
+
+Keystrokes.Name = "Keystrokes"
+Keystrokes.Parent = game.CoreGui
+Keystrokes.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = Keystrokes
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.BackgroundTransparency = 1.000
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(0.012987013, 0, 0.696341455, 0)
+Frame.Size = UDim2.new(0, 264, 0, 224)
+
+W.Name = "W"
+W.Parent = Frame
+W.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+W.BorderColor3 = Color3.fromRGB(0, 0, 0)
+W.Position = UDim2.new(0.405303031, 0, 0.0580357127, 0)
+W.Size = UDim2.new(0, 50, 0, 50)
+W.Font = Enum.Font.Unknown
+W.Text = "W"
+W.TextColor3 = Color3.fromRGB(255, 255, 255)
+W.TextSize = 22.000
+
+S.Name = "S"
+S.Parent = Frame
+S.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+S.BorderColor3 = Color3.fromRGB(0, 0, 0)
+S.Position = UDim2.new(0.405303031, 0, 0.3125, 0)
+S.Size = UDim2.new(0, 50, 0, 50)
+S.Font = Enum.Font.Unknown
+S.Text = "S"
+S.TextColor3 = Color3.fromRGB(255, 255, 255)
+S.TextSize = 22.000
+
+A.Name = "A"
+A.Parent = Frame
+A.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+A.BorderColor3 = Color3.fromRGB(0, 0, 0)
+A.Position = UDim2.new(0.193181813, 0, 0.3125, 0)
+A.Size = UDim2.new(0, 50, 0, 50)
+A.Font = Enum.Font.Unknown
+A.Text = "A"
+A.TextColor3 = Color3.fromRGB(255, 255, 255)
+A.TextSize = 22.000
+
+D.Name = "D"
+D.Parent = Frame
+D.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+D.BorderColor3 = Color3.fromRGB(0, 0, 0)
+D.Position = UDim2.new(0.621212125, 0, 0.3125, 0)
+D.Size = UDim2.new(0, 50, 0, 50)
+D.Font = Enum.Font.Unknown
+D.Text = "D"
+D.TextColor3 = Color3.fromRGB(255, 255, 255)
+D.TextSize = 22.000
+
+LMB.Name = "LMB"
+LMB.Parent = Frame
+LMB.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+LMB.BorderColor3 = Color3.fromRGB(0, 0, 0)
+LMB.Position = UDim2.new(0.193181813, 0, 0.580357134, 0)
+LMB.Size = UDim2.new(0, 76, 0, 50)
+LMB.Font = Enum.Font.Unknown
+LMB.Text = "LMB"
+LMB.TextColor3 = Color3.fromRGB(255, 255, 255)
+LMB.TextSize = 22.000
+
+RMB.Name = "RMB"
+RMB.Parent = Frame
+RMB.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+RMB.BorderColor3 = Color3.fromRGB(0, 0, 0)
+RMB.Position = UDim2.new(0.522727251, 0, 0.580357134, 0)
+RMB.Size = UDim2.new(0, 76, 0, 50)
+RMB.Font = Enum.Font.Unknown
+RMB.Text = "RMB"
+RMB.TextColor3 = Color3.fromRGB(255, 255, 255)
+RMB.TextSize = 22.000
+
+Space.Name = "Space"
+Space.Parent = Frame
+Space.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+Space.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Space.Position = UDim2.new(0.193181813, 0, 0.830357134, 0)
+Space.Size = UDim2.new(0, 163, 0, 31)
+Space.Font = Enum.Font.Unknown
+Space.Text = "Space"
+Space.TextColor3 = Color3.fromRGB(255, 255, 255)
+Space.TextSize = 22.000
+
+UIS = game:GetService("UserInputService")
+local mouse = game.Players.LocalPlayer:GetMouse()
+
+
+UIS.InputBegan:Connect(function(input)
+	if input.KeyCode == Enum.KeyCode.W then
+		W.TextColor3 = Color3.fromRGB(191, 0, 255)
+	elseif input.KeyCode == Enum.KeyCode.A then
+		A.TextColor3 = Color3.fromRGB(191, 0, 255)
+	elseif input.KeyCode == Enum.KeyCode.S then
+		S.TextColor3 = Color3.fromRGB(191, 0, 255)
+	elseif input.KeyCode == Enum.KeyCode.D then
+		D.TextColor3 = Color3.fromRGB(191, 0, 255)
+	end
+end)
+
+UIS.InputEnded:Connect(function(input)
+	if input.KeyCode == Enum.KeyCode.W then
+		W.TextColor3 = Color3.fromRGB(255, 255, 255)
+	elseif input.KeyCode == Enum.KeyCode.A then
+		A.TextColor3 = Color3.fromRGB(255, 255, 255)
+	elseif input.KeyCode == Enum.KeyCode.S then
+		S.TextColor3 = Color3.fromRGB(255, 255, 255)
+	elseif input.KeyCode == Enum.KeyCode.D then
+		D.TextColor3 = Color3.fromRGB(255, 255, 255)
+	end
+end)
+
+
+mouse.Button1Down:Connect(function()
+	LMB.TextColor3 = Color3.fromRGB(191, 0, 255)
+end)
+
+mouse.Button2Down:Connect(function()
+	RMB.TextColor3 = Color3.fromRGB(191, 0, 255)
+end)
+
+mouse.Button1Up:Connect(function()
+	LMB.TextColor3 = Color3.fromRGB(255, 255, 255)
+end)
+
+mouse.Button2Up:Connect(function()
+	RMB.TextColor3 = Color3.fromRGB(255, 255, 255)
+end)
+
+UIS.InputBegan:Connect(function(input)
+	if input.KeyCode == Enum.KeyCode.Space then
+		Space.TextColor3 = Color3.fromRGB(191, 0, 255)
+	end
+end)
+
+UIS.InputEnded:Connect(function(input)
+	if input.KeyCode == Enum.KeyCode.Space then
+		Space.TextColor3 = Color3.fromRGB(255, 255, 255)
+	end
+end)
