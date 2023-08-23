@@ -103,7 +103,7 @@ end
 esp.NewPlayer = function(v)
     esp.players[v] = {
         name = esp.NewDrawing("Text", {Color = Color3fromRGB(255, 255, 255), Outline = true, Center = true, Size = 13, Font = 2}),
-        filledbox = esp.NewDrawing("Square", {Color = Color3fromRGB(255, 255, 255), Thickness = 1, Filled = esp.settings.filledbox.enabled}),
+        filledbox = esp.NewDrawing("Square", {Color = Color3fromRGB(255, 255, 255), Transparency = esp.settings.transparency, Filled = esp.settings.filledbox.enabled}),
         boxOutline = esp.NewDrawing("Square", {Color = Color3fromRGB(0, 0, 0), Thickness = 3}),
         box = esp.NewDrawing("Square", {Color = Color3fromRGB(255, 255, 255), Thickness = 1}),
         healthBarOutline = esp.NewDrawing("Line", {Color = Color3fromRGB(0, 0, 0), Thickness = 3}),
@@ -298,7 +298,7 @@ esp_Loop = rs.RenderStepped:Connect(function()
                     if esp.TeamCheck(i) then
                         v.name.Visible = esp.settings.name.enabled
                         v.box.Visible = esp.settings.box.enabled
-                        v.filledbox.Visible = esp.settings.box.enabled
+                        v.filledbox.Visible = esp.settings.filledbox.enabled
                         v.healthBar.Visible = esp.settings.healthbar.enabled
                         v.healthText.Visible = esp.settings.healthtext.enabled
                         v.distance.Visible = esp.settings.distance.enabled
