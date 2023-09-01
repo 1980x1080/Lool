@@ -1,4 +1,4 @@
-# NeverLose UI Lib
+# seere.vip Fix UI Lib
 ![seere.vip](https://github.com/1980x1080/Lool/assets/86509034/3c88de4b-a542-4a6f-9f4c-9a79f8905159)
 
 # Script:
