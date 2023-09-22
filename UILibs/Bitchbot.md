@@ -1,5 +1,5 @@
 # Bitchbot UI Lib
-![BB](![image](https://github.com/1980x1080/Lool/assets/86509034/0c8420e2-ca35-43dc-bf9e-0a36c8185101))
+![BB](https://github.com/1980x1080/Lool/assets/86509034/0c8420e2-ca35-43dc-bf9e-0a36c8185101)
 
 # Script:
 ```
