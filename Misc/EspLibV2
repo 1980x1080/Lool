@@ -11,6 +11,7 @@ local Vector2new = Vector2.new
 local mathfloor = math.floor
 local mathceil = math.ceil
 
+local Espppp = game:HttpGet("https://i.imgur.com/S5ChFNh_d.png")
 local esp = {
     players = {},
     objects = {},
@@ -21,13 +22,14 @@ local esp = {
     maxdist = 0,
     settings = {
         name = {enabled = false, outline = false, displaynames = false, color = Color3fromRGB(255, 255, 255)},
-        box = {enabled = false, outline = false, color = Color3fromRGB(255, 255, 255)},
+        box = {enabled = false, outline = true, color = Color3fromRGB(255, 255, 255)},
         filledbox = {enabled = false, outline = false, transparency = 0.5, color = Color3fromRGB(255, 255, 255)},
+        imagebox = {enabled = false, data = Espppp},
         healthbar = {enabled = false, size = 3, outline = false},
         healthtext = {enabled = false, outline = false, color = Color3fromRGB(255, 255, 255)},
         distance = {enabled = false, outline = false, color = Color3fromRGB(255, 255, 255)},
         viewangle = {enabled = false, size = 10, color = Color3fromRGB(255, 255, 255)},
-        weapon = {enabled = false, outline = false, color = Color3fromRGB(255, 255, 255)},
+        weapon = {enabled = false, outline = true, color = Color3fromRGB(255, 255, 255)},
         tracer = {enabled = false, origin = "Middle", color = Color3fromRGB(255, 255, 255)},
         arrow = {enabled = false, radius = 100, size = 10, filled = true, transparency = 1, color = Color3fromRGB(255, 255, 255)}
     },
@@ -91,13 +93,14 @@ esp.TeamCheck = function(v)
 end
 
 esp.GetEquippedTool = function(v)
-    return (v.Character:FindFirstChildOfClass("Tool") and tostring(v.Character:FindFirstChildOfClass("Tool"))) or "Hands"
+    return (v.Character:FindFirstChildOfClass("Tool") and tostring(v.Character:FindFirstChildOfClass("Tool"))) or "None"
 end
 
 esp.NewPlayer = function(v)
     esp.players[v] = {
         name = esp.NewDrawing("Text", {Color = Color3fromRGB(255, 255, 255), Outline = true, Center = true, Size = 13, Font = 2}),
         filledbox = esp.NewDrawing("Square", {Color = Color3fromRGB(255, 255, 255), Thickness = 1, Filled = true}),
+        imagebox = esp.NewDrawing("Image", {Data = esp.settings.imagebox.data, ZIndex = 1, Visible = esp.settings.imagebox.enabled}),
         boxOutline = esp.NewDrawing("Square", {Color = Color3fromRGB(0, 0, 0), Thickness = 3}),
         box = esp.NewDrawing("Square", {Color = Color3fromRGB(255, 255, 255), Thickness = 1}),
         healthBarOutline = esp.NewDrawing("Line", {Color = Color3fromRGB(0, 0, 0), Thickness = 3}),
@@ -230,6 +233,15 @@ ESP_Loop = rs.RenderStepped:Connect(function()
                     v.filledbox.Visible = false
                 end
 
+                if esp.settings.imagebox.enabled then
+                    v.imagebox.Size = BoxSize
+                    v.imagebox.Position = BoxPos
+                    v.imagebox.Data = esp.settings.imagebox.data
+                    v.imagebox.Visible = true
+                else
+                    v.imagebox.Visible = false
+                end
+
                 if esp.settings.box.enabled then
                     v.boxOutline.Size = BoxSize
                     v.boxOutline.Position = BoxPos
@@ -285,8 +297,8 @@ ESP_Loop = rs.RenderStepped:Connect(function()
                 if esp.settings.weapon.enabled then
                     v.weapon.Visible = true
                     v.weapon.Position = Vector2new(BoxSize.X + BoxPos.X + v.weapon.TextBounds.X / 2 + 3, BoxPos.Y - 3)
-                    v.weapon.Outline = esp.settings.name.outline
-                    v.weapon.Color = esp.settings.name.color
+                    v.weapon.Outline = esp.settings.weapon.outline
+                    v.weapon.Color = esp.settings.weapon.color
 
                     v.weapon.Font = esp.font
                     v.weapon.Size = esp.fontsize
@@ -323,7 +335,8 @@ ESP_Loop = rs.RenderStepped:Connect(function()
                     if esp.TeamCheck(i) then
                         v.name.Visible = esp.settings.name.enabled
                         v.box.Visible = esp.settings.box.enabled
-                        v.filledbox.Visible = esp.settings.box.enabled
+                        v.filledbox.Visible = esp.settings.filledbox.enabled
+                        v.imagebox.Visible = esp.settings.imagebox.enabled
                         v.healthBar.Visible = esp.settings.healthbar.enabled
                         v.healthText.Visible = esp.settings.healthtext.enabled
                         v.distance.Visible = esp.settings.distance.enabled
@@ -336,6 +349,7 @@ ESP_Loop = rs.RenderStepped:Connect(function()
                         v.boxOutline.Visible = false
                         v.box.Visible = false
                         v.filledbox.Visible = false
+                        v.imagebox.Visible = false
                         v.healthBarOutline.Visible = false
                         v.healthBar.Visible = false
                         v.healthText.Visible = false
@@ -351,6 +365,7 @@ ESP_Loop = rs.RenderStepped:Connect(function()
                 v.boxOutline.Visible = false
                 v.box.Visible = false
                 v.filledbox.Visible = false
+                v.imagebox.Visible = false
                 v.healthBarOutline.Visible = false
                 v.healthBar.Visible = false
                 v.healthText.Visible = false
@@ -364,6 +379,7 @@ ESP_Loop = rs.RenderStepped:Connect(function()
             v.boxOutline.Visible = false
             v.box.Visible = false
             v.filledbox.Visible = false
+            v.imagebox.Visible = false
             v.healthBarOutline.Visible = false
             v.healthBar.Visible = false
             v.healthText.Visible = false
