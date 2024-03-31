@@ -295,6 +295,29 @@ ESP_Loop = rs.RenderStepped:Connect(function()
                 else
                     v.weapon.Visible = false
                 end
+                if esp.enabled and esp.settings.arrow.enabled then
+                    local currentCamera = workspace.CurrentCamera
+                    local screenCenter = Vector2new(workspace.CurrentCamera.ViewportSize.X / 2, workspace.CurrentCamera.ViewportSize.Y / 2);
+                    local objectSpacePoint = (pointToObjectSpace(currentCamera.CFrame, hrp.Position) * Vector3new(1, 0, 1)).Unit;
+                    local crossVector = cross(objectSpacePoint, Vector3new(0, 1, 1));
+                    local rightVector = Vector2new(crossVector.X, crossVector.Z);
+
+                    local arrowRadius, arrowSize = esp.settings.arrow.radius, esp.settings.arrow.size;
+                    local arrowPosition = screenCenter + Vector2new(objectSpacePoint.X, objectSpacePoint.Z) * arrowRadius;
+                    local arrowDirection = (arrowPosition - screenCenter).Unit;
+
+                    local pointA, pointB, pointC = arrowPosition, screenCenter + arrowDirection * (arrowRadius - arrowSize) + rightVector * arrowSize, screenCenter + arrowDirection * (arrowRadius - arrowSize) + -rightVector * arrowSize;
+
+                    v.arrow.Visible = true
+                    v.arrow.Filled = esp.settings.arrow.filled;
+                    v.arrow.Transparency = esp.settings.arrow.transparency;
+                    v.arrow.Color = esp.settings.arrow.color
+                    v.arrow.PointA = pointA;
+                    v.arrow.PointB = pointB;
+                    v.arrow.PointC = pointC;
+                else
+                    v.arrow.Visible = false
+                end
 
                 if esp.teamcheck then
                     if esp.TeamCheck(i) then
@@ -335,29 +358,6 @@ ESP_Loop = rs.RenderStepped:Connect(function()
                 v.tracer.Visible = false
                 v.viewAngle.Visible = false
                 v.weapon.Visible = false
-                if esp.enabled and esp.settings.arrow.enabled then
-                    local currentCamera = workspace.CurrentCamera
-                    local screenCenter = Vector2new(workspace.CurrentCamera.ViewportSize.X / 2, workspace.CurrentCamera.ViewportSize.Y / 2);
-                    local objectSpacePoint = (pointToObjectSpace(currentCamera.CFrame, hrp.Position) * Vector3new(1, 0, 1)).Unit;
-                    local crossVector = cross(objectSpacePoint, Vector3new(0, 1, 1));
-                    local rightVector = Vector2new(crossVector.X, crossVector.Z);
-
-                    local arrowRadius, arrowSize = esp.settings.arrow.radius, esp.settings.arrow.size;
-                    local arrowPosition = screenCenter + Vector2new(objectSpacePoint.X, objectSpacePoint.Z) * arrowRadius;
-                    local arrowDirection = (arrowPosition - screenCenter).Unit;
-
-                    local pointA, pointB, pointC = arrowPosition, screenCenter + arrowDirection * (arrowRadius - arrowSize) + rightVector * arrowSize, screenCenter + arrowDirection * (arrowRadius - arrowSize) + -rightVector * arrowSize;
-
-                    v.arrow.Visible = true
-                    v.arrow.Filled = esp.settings.arrow.filled;
-                    v.arrow.Transparency = esp.settings.arrow.transparency;
-                    v.arrow.Color = esp.settings.arrow.color
-                    v.arrow.PointA = pointA;
-                    v.arrow.PointB = pointB;
-                    v.arrow.PointC = pointC;
-                else
-                    v.arrow.Visible = false
-                end
             end
         else
             v.name.Visible = false
