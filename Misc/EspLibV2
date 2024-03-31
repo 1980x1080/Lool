@@ -27,7 +27,9 @@ local esp = {
         healthtext = {enabled = false, outline = false, color = Color3fromRGB(255, 255, 255)},
         distance = {enabled = false, outline = false, color = Color3fromRGB(255, 255, 255)},
         viewangle = {enabled = false, size = 10, color = Color3fromRGB(255, 255, 255)},
-        weapon = {enabled = false, outline = false, color = Color3fromRGB(255, 255, 255)}
+        weapon = {enabled = false, outline = false, color = Color3fromRGB(255, 255, 255)},
+        tracer = {enabled = false, origin = "Middle", color = Color3fromRGB(255, 255, 255)},
+        arrow = {enabled = false, radius = 100, size = 10, filled = true, transparency = 1, color = Color3fromRGB(255, 255, 255)}
     },
     settings_chams = {
         enabled = false,
@@ -104,6 +106,8 @@ esp.NewPlayer = function(v)
         distance = esp.NewDrawing("Text", {Color = Color3fromRGB(255, 255, 255), Outline = true, Center = true, Size = 13, Font = 2}),
         viewAngle = esp.NewDrawing("Line", {Color = Color3fromRGB(255, 255, 255), Thickness = 1}),
         weapon = esp.NewDrawing("Text", {Color = Color3fromRGB(255, 255, 255), Outline = true, Center = true, Size = 13, Font = 2}),
+        tracer = esp.NewDrawing("Line", {Color = Color3fromRGB(255, 255, 255), Thickness = 1}),
+        arrow = esp.NewDrawing("Triangle", {Color = Color3fromRGB(255, 255, 255), Thickness = 1}),
         cham = esp.NewCham({FillColor = esp.settings_chams.fill_color, OutlineColor = esp.settings_chams.outline_color, FillTransparency = esp.settings_chams.fill_transparency, OutlineTransparency = esp.settings_chams.outline_transparency})
     }
 end
@@ -182,6 +186,25 @@ ESP_Loop = rs.RenderStepped:Connect(function()
                     v.name.Visible = false
                 end
 
+                if esp.settings.tracer.enabled and esp.enabled then
+                    if esp.settings.tracer.origin == "Bottom" then
+                        v.tracer.From = Vector2new(workspace.CurrentCamera.ViewportSize.X / 2, workspace.CurrentCamera.ViewportSize.Y)
+                    elseif esp.settings.tracer.origin == "Top" then
+                        v.tracer.From = Vector2new(workspace.CurrentCamera.ViewportSize.X / 2,0)
+                    elseif esp.settings.tracer.origin == "Middle" then
+                        v.tracer.From = Vector2new(workspace.CurrentCamera.ViewportSize.X / 2, workspace.CurrentCamera.ViewportSize.Y / 2)
+                    else
+                        v.tracer.From = Vector2new(workspace.CurrentCamera.ViewportSize.X / 2, workspace.CurrentCamera.ViewportSize.Y / 2)
+                    end
+    
+                    v.tracer.To = Vector2new(Vector.X, Vector.Y)
+                    v.tracer.Color = esp.settings.tracer.color
+                    v.tracer.Visible = true
+                else
+                    v.tracer.Visible = false
+                end
+    
+
                 if esp.settings.distance.enabled and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
                     v.distance.Position = Vector2new(BoxSize.X / 2 + BoxPos.X, BottomOffset)
                     v.distance.Outline = esp.settings.distance.outline
@@ -259,7 +282,6 @@ ESP_Loop = rs.RenderStepped:Connect(function()
                 else
                     v.viewAngle.Visible = false
                 end
-
                 if esp.settings.weapon.enabled then
                     v.weapon.Visible = true
                     v.weapon.Position = Vector2new(BoxSize.X + BoxPos.X + v.weapon.TextBounds.X / 2 + 3, BoxPos.Y - 3)
@@ -283,7 +305,9 @@ ESP_Loop = rs.RenderStepped:Connect(function()
                         v.healthText.Visible = esp.settings.healthtext.enabled
                         v.distance.Visible = esp.settings.distance.enabled
                         v.viewAngle.Visible = esp.settings.viewangle.enabled
+                        v.tracer.Visible = esp.settings.tracer.enabled
                         v.weapon.Visible = esp.settings.weapon.enabled
+                        v.arrow.Visible = esp.settings.arrow.enabled
                     else
                         v.name.Visible = false
                         v.boxOutline.Visible = false
@@ -294,7 +318,9 @@ ESP_Loop = rs.RenderStepped:Connect(function()
                         v.healthText.Visible = false
                         v.distance.Visible = false
                         v.viewAngle.Visible = false
+                        v.tracer.Visible = false
                         v.weapon.Visible = false
+                        v.arrow.Visible = false
                     end
                 end
             else
@@ -306,8 +332,32 @@ ESP_Loop = rs.RenderStepped:Connect(function()
                 v.healthBar.Visible = false
                 v.healthText.Visible = false
                 v.distance.Visible = false
+                v.tracer.Visible = false
                 v.viewAngle.Visible = false
                 v.weapon.Visible = false
+                if esp.enabled and esp.settings.arrow.enabled then
+                    local currentCamera = workspace.CurrentCamera
+                    local screenCenter = Vector2new(workspace.CurrentCamera.ViewportSize.X / 2, workspace.CurrentCamera.ViewportSize.Y / 2);
+                    local objectSpacePoint = (pointToObjectSpace(currentCamera.CFrame, hrp.Position) * Vector3new(1, 0, 1)).Unit;
+                    local crossVector = cross(objectSpacePoint, Vector3new(0, 1, 1));
+                    local rightVector = Vector2new(crossVector.X, crossVector.Z);
+
+                    local arrowRadius, arrowSize = esp.settings.arrow.radius, esp.settings.arrow.size;
+                    local arrowPosition = screenCenter + Vector2new(objectSpacePoint.X, objectSpacePoint.Z) * arrowRadius;
+                    local arrowDirection = (arrowPosition - screenCenter).Unit;
+
+                    local pointA, pointB, pointC = arrowPosition, screenCenter + arrowDirection * (arrowRadius - arrowSize) + rightVector * arrowSize, screenCenter + arrowDirection * (arrowRadius - arrowSize) + -rightVector * arrowSize;
+
+                    v.arrow.Visible = true
+                    v.arrow.Filled = esp.settings.arrow.filled;
+                    v.arrow.Transparency = esp.settings.arrow.transparency;
+                    v.arrow.Color = esp.settings.arrow.color
+                    v.arrow.PointA = pointA;
+                    v.arrow.PointB = pointB;
+                    v.arrow.PointC = pointC;
+                else
+                    v.arrow.Visible = false
+                end
             end
         else
             v.name.Visible = false
@@ -320,7 +370,9 @@ ESP_Loop = rs.RenderStepped:Connect(function()
             v.distance.Visible = false
             v.viewAngle.Visible = false
             v.cham.Enabled = false
+            v.tracer.Visible = false
             v.weapon.Visible = false
+            v.arrow.Visible = false
         end
     end
 end)
