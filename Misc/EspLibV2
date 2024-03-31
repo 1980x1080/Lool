@@ -105,6 +105,9 @@ esp.TeamCheck = function(v)
     return true
 end
 
+esp.GetEquippedTool = function(v)
+    return (v.Character:FindFirstChildOfClass("Tool") and tostring(v.Character:FindFirstChildOfClass("Tool"))) or "None"
+end
 esp.NewPlayer = function(v)
     esp.players[v] = {
         name = esp.NewDrawing("Text", {Color = Color3fromRGB(255, 255, 255), Outline = true, Center = true, Size = 13, Font = 2}),
