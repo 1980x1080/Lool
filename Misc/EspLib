@@ -566,4 +566,3 @@ esp.Unload = function()
 end
 
 getgenv().esp = esp
-return esp
