@@ -1,5 +1,5 @@
-local plrs = game["Players"]
-local rs = game["RunService"]
+local plrs = game:GetService("Players")
+local rs = game:GetService("RunService")
 local plr = plrs.LocalPlayer
 local mouse = plr:GetMouse()
 local camera = workspace.CurrentCamera
